@@ -2,10 +2,10 @@ echo "Cloning Repo...."
 if [ -z $BRANCH ]
 then
   echo "Cloning main branch...."
-  git clone https://github.com/montanajon/vcbot /vbot
+  git clone https://github.com/montanajon/vbot /vbot
 else
   echo "Cloning $BRANCH branch...."
-  git clone https://github.com/montanajon/vcbot -b $BRANCH /vbot
+  git clone https://github.com/montanajon/vbot -b $BRANCH /vbot
 fi
 cd /vbot
 pip3 install -U -r requirements.txt

@@ -3,7 +3,9 @@ from youtube_search import YoutubeSearch
 from contextlib import suppress
 from pyrogram.types import Message
 from yt_dlp import YoutubeDL
+
 from datetime import datetime
+
 from pyrogram import filters
 from config import Config
 from PTN import parse
@@ -46,6 +48,34 @@ from pyrogram import (
     Client, 
     filters
     )
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
+scheduler.start()
+
+JOB_STREAMLINK = ""
+JOB_M = ""
+JOB_MSG = ""
+COUNTER = 0
+async def job():
+    global JOB_STREAMLINK
+    global JOB_M
+    global JOB_MSG
+    global COUNTER
+    k, msg_=await stream_from_link(JOB_STREAMLINK)
+    COUNTER += 1 
+    k = await JOB_M.reply(f"({COUNTER}) job interval executed.")
+    if k == False:
+        k = await JOB_MSG.edit(msg_)
+        await delete_messages([JOB_M, k])
+        return
+    if Config.msg.get('player'):
+        await Config.msg['player'].delete()
+   
+    Config.msg['player']=await JOB_MSG.reply(f"[Streaming]({JOB_STREAMLINK}) Started. ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ", disable_web_page_preview=True, reply_markup=await get_buttons())
+   
+
 
 
 admin_filter=filters.create(is_admin) 
@@ -411,8 +441,9 @@ async def stream(client, m: Message):
         if m.reply_to_message and m.reply_to_message.text:
             link=m.reply_to_message.text
         elif " " in m.text:
-            text = m.text.split(" ", 1)
-            link = text[1]
+            text = m.text.split(" ", 2)
+            time_interval=int(text[1])
+            link = text[2]
         else:
             k = await msg.edit("Provide a link to stream!")
             await delete_messages([m, k])
@@ -444,6 +475,7 @@ async def stream(client, m: Message):
             k = await msg.edit("This is not a live stream, Use /play command.")
             await delete_messages([m, k])
             return
+            
         k, msg_=await stream_from_link(stream_link)
         if k == False:
             k = await msg.edit(msg_)
@@ -453,6 +485,24 @@ async def stream(client, m: Message):
             await Config.msg['player'].delete()
         Config.msg['player']=await msg.edit(f"[Streaming]({stream_link}) Started. ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ", disable_web_page_preview=True, reply_markup=await get_buttons())
         await delete_messages([m])
+
+        global JOB_STREAMLINK
+        global JOB_M
+        global JOB_MSG
+        global COUNTER
+
+        JOB_STREAMLINK = stream_link
+        JOB_M = m
+        JOB_MSG = msg
+        COUNTER = 0
+
+        if scheduler.get_job('last'):
+            print("remove last")
+            scheduler.remove_job('last')
+        
+        scheduler.add_job(job, "interval", minutes=time_interval, id='last')
+
+        
         
 
 

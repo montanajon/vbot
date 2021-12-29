@@ -53,19 +53,20 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
 scheduler.start()
-
 JOB_STREAMLINK = ""
 JOB_M = ""
 JOB_MSG = ""
-COUNTER = 0
+JOB_MsgCIE=""
+COUNTER = 1
 async def job():
     global JOB_STREAMLINK
     global JOB_M
     global JOB_MSG
+    global JOB_MsgCIE
     global COUNTER
     k, msg_=await stream_from_link(JOB_STREAMLINK)
     COUNTER += 1 
-    k = await JOB_M.reply(f"({COUNTER}) job interval executed.")
+    await JOB_MsgCIE.edit(f"({COUNTER}) job interval executed.")
     if k == False:
         k = await JOB_MSG.edit(msg_)
         await delete_messages([JOB_M, k])
@@ -79,6 +80,18 @@ async def job():
 
 
 admin_filter=filters.create(is_admin) 
+
+
+
+@Client.on_message(filters.command(["removeinterval", f"removeinterval@{Config.BOT_USERNAME}"]) & admin_filter & chat_filter)
+async def rem_interval(client, m: Message):
+    if scheduler.get_job('last'):
+            print("interval removed")
+            scheduler.remove_job('last')
+
+    await m.reply(f"Interval Removed Successfully.", disable_web_page_preview=True)
+    await delete_messages([m])
+
 
 @Client.on_message(filters.command(["play", "fplay", f"play@{Config.BOT_USERNAME}", f"fplay@{Config.BOT_USERNAME}"]) & chat_filter)
 async def add_to_playlist(_, message: Message):
@@ -484,12 +497,16 @@ async def stream(client, m: Message):
         if Config.msg.get('player'):
             await Config.msg['player'].delete()
         Config.msg['player']=await msg.edit(f"[Streaming]({stream_link}) Started. ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ", disable_web_page_preview=True, reply_markup=await get_buttons())
-        await delete_messages([m])
+        # await delete_messages([m])
 
         global JOB_STREAMLINK
         global JOB_M
         global JOB_MSG
+        global JOB_MsgCIE
         global COUNTER
+
+        JOB_MsgCIE = await m.reply("first execute.")
+        
 
         JOB_STREAMLINK = stream_link
         JOB_M = m

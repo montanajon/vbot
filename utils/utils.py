@@ -854,7 +854,7 @@ async def chek_the_media(link, seek=False, pic=False, title="Music"):
                 is_audio_ = False
                 LOGGER.error("Unable to get Audio properties within time.")
             if is_audio_:
-                pic_=await bot.get_messages("DumpPlaylist", 30)
+                pic_=await bot.get_messages("helpt1", 2)
                 photo = "./pic/photo"
                 if not os.path.exists(photo):
                     photo = await pic_.download(file_name=photo)
@@ -1802,6 +1802,7 @@ def get_image(title, pic, dur="Live"):
     MAX_W = 1790
     dur=convert(int(float(dur)))
     if dur=="0:00:00":
+        title= "Video Failed, Solve in Minutes, Plz be Patient... "
         dur = "Live Stream"
     para=[f'Playing: {title}', f'Duration: {dur}']
     current_h, pad = 450, 20

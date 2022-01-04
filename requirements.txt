@@ -1,10 +1,10 @@
-pyrogram
+git+https://github.com/subinps/pyrogram.git@session
 py-tgcalls
 parse-torrent-name
 tgcrypto
 yt-dlp
 youtube-search-python
-httpx
+httpx==0.14.2
 youtube-search
 heroku3
 pillow

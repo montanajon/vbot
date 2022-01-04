@@ -1,10 +1,10 @@
-pyrogram > 1.2.20
+pyrogram
 py-tgcalls
 parse-torrent-name
 tgcrypto
 yt-dlp
 youtube-search-python
-httpx==0.14.2
+httpx
 youtube-search
 heroku3
 pillow

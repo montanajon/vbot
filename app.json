@@ -1,5 +1,5 @@
 {
-    "name": "vcbot",
+    "name": "vbot",
     "description": "Telegram bot to stream video in telegram VC",
     "repository": "https://github.com/montanajon/vcbot",
     "stack": "container",
@@ -41,7 +41,7 @@
       },
       "QUALITY": {
         "description": "Default quality of your video player, Use one of high, medium or low.",
-        "value": "high",
+        "value": "medium",
         "required": false
       },
       "DATABASE_URI": {
@@ -54,7 +54,7 @@
       },
       "ADMIN_ONLY": {
         "description": "Change it to True if you want to make /play command available for everyone.",
-        "value": "False",
+        "value": "True",
         "required": false
       },
       "HEROKU_API_KEY": {
@@ -72,7 +72,6 @@
       },
       "REPLY_MESSAGE": {
         "description": "A reply message to those who message the USER account in PM. Make it blank if you do not need this feature.",
-        "value": "Helo Ser, Iam a bot to play music, not havimg time to chat with you.",
         "required": false
       }
     },

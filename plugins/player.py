@@ -99,7 +99,7 @@ async def add_to_playlist(_, message: Message):
         admins = await get_admins(Config.CHAT)
         if Config.ADMIN_ONLY:
             if not (message.from_user is None and message.sender_chat or message.from_user.id in admins):
-                k=await message.reply_sticker("CAADBQADsQIAAtILIVYld1n74e3JuQI")
+                k=await message.reply_sticker("CAACAgQAAx0CaebU9AADA2HV4S63JO41FIlt-wt-0cmFzMV0AAIHCwAC_iexUrykjv-NM9NbHgQ")
                 await delete_messages([message, k])
                 return
         type=""
@@ -534,7 +534,7 @@ allcmd = ["play", "player", f"play@{Config.BOT_USERNAME}", f"player@{Config.BOT_
 
 @Client.on_message(filters.command(admincmds) & ~admin_filter & chat_filter)
 async def notforu(_, m: Message):
-    k = await _.send_cached_media(chat_id=m.chat.id, file_id="CAADBQADEgQAAtMJyFVJOe6-VqYVzAI", caption="You Are Not Authorized", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚡️Join Here', url='https://t.me/')]])) # TODO must set my channel
+    k = await _.send_cached_media(chat_id=m.chat.id, file_id="CAACAgQAAx0CaebU9AADA2HV4S63JO41FIlt-wt-0cmFzMV0AAIHCwAC_iexUrykjv-NM9NbHgQ", caption="You Are Not Authorized", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚡️Join Here', url='https://t.me/vizitel')]]))
     await delete_messages([m, k])
 
 @Client.on_message(filters.command(allcmd) & ~chat_filter & filters.group)

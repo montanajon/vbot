@@ -41,7 +41,7 @@
       },
       "QUALITY": {
         "description": "Default quality of your video player, Use one of high, medium or low.",
-        "value": "medium",
+        "value": "low",
         "required": false
       },
       "DATABASE_URI": {

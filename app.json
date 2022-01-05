@@ -1,7 +1,7 @@
 {
     "name": "vbot",
     "description": "Telegram bot to stream video in telegram VC",
-    "repository": "https://github.com/montanajon/vcbot",
+    "repository": "https://github.com/montanajon/vbot",
     "stack": "container",
     "keywords": [
       "telegram",

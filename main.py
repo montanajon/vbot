@@ -72,6 +72,10 @@ async def main():
             else:
                 LOGGER.info("Loop play enabled , starting playing startup stream.")
                 await start_stream()
+                if Config.FAV_LIVE_URL:
+                    await USER.send_message(Config.BOT_USERNAME, Config.FAV_LIVE_URL)
+                    LOGGER.info("in Loop play enabled , starting playing FAV_LIVE_URL stream.")
+                    
     except Exception as e:
         LOGGER.error(f"Startup was unsuccesfull, Errors - {e}", exc_info=True)
         LOGGER.info("Activating debug mode, you can reconfigure your bot with /env command.")

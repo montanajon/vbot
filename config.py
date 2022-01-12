@@ -31,6 +31,7 @@ class Config:
 
     #Stream 
     STREAM_URL=os.environ.get("STARTUP_STREAM", "https://www.youtube.com/watch?v=5qap5aO4i9A")
+    FAV_LIVE_URL=os.environ.get("FAV_LIVE_URL", None)
    
     #Database
     DATABASE_URI=os.environ.get("DATABASE_URI", None)

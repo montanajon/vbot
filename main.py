@@ -77,9 +77,17 @@ async def main():
                     LOGGER.info("in Loop play enabled , starting playing FAV_LIVE_URL stream.")
                     
     except Exception as e:
-        LOGGER.error(f"Startup was unsuccesfull, Errors - {e}", exc_info=True)
-        LOGGER.info("Activating debug mode, you can reconfigure your bot with /env command.")
-        Config.STARTUP_ERROR=f"Startup was unsuccesfull, Errors - {e}"
+#         LOGGER.error(f"Startup was unsuccesfull, Errors - {e}", exc_info=True)
+#         LOGGER.info("Activating debug mode, you can reconfigure your bot with /env command.")
+#         Config.STARTUP_ERROR=f"Startup was unsuccesfull, Errors - {e}"
+        if "unpack requires" in str(e):
+            LOGGER.error("You Have to generate a new session string from the link given in README of the repo and replace the existing one with the new.")
+            LOGGER.info("Activating debug mode, you can reconfigure your bot with /env command.")
+            Config.STARTUP_ERROR=f"You Have to generate a new session string from the link given in README of the repo and replace the existing one with the new. \nGenerate string session from https://repl.it/@subinps/getStringName"
+        else:
+            LOGGER.error(f"Startup was unsuccesfull, Errors - {e}", exc_info=True)
+            LOGGER.info("Activating debug mode, you can reconfigure your bot with /env command.")
+            Config.STARTUP_ERROR=f"Startup was unsuccesfull, Errors - {e}"
         from utils import debug
         await bot.stop()
         await debug.start()
